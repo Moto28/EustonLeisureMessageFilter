@@ -1,0 +1,16 @@
+﻿<Window x:Class="EustonLeisureMessageFilter.CreateMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EustonLeisureMessageFilter"
+        mc:Ignorable="d"
+        Title="CreateMessage" Height="300" Width="300"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+    <Grid>
+        <!-- creates a custom window for the login page-->
+        <Rectangle  Fill="#FF5869B8" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="-112,-3,-393,-47" MouseDown="Rectangle_MouseDown"/>
+        <!-- creates a elements that groups controls for and other UI elemets for the window -->
+
+        <!--exit button-->
+    </Grid>
+</Window>

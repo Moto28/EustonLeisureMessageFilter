@@ -24,5 +24,26 @@ namespace EustonLeisureMessageFilter
         {
             InitializeComponent();
         }
+
+        private void ExitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //closes the window
+            this.Close();
+        }
+
+        private void CreateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //opens creates and opens new window 
+            CreateMessage newWindow = new CreateMessage();
+            newWindow.Show();
+            //hide mainWindow
+            this.Hide();
+        }
+
+        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //allows the custom window to move 
+            DragMove();
+        }
     }
 }
