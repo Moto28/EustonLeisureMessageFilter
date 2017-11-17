@@ -45,5 +45,14 @@ namespace EustonLeisureMessageFilter
             //allows the custom window to move 
             DragMove();
         }
+
+        private void LoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //opens creates and opens new window 
+            LoadMessage newWindow = new LoadMessage();
+            newWindow.Show();
+            //hide mainWindow
+            this.Hide();
+        }
     }
 }

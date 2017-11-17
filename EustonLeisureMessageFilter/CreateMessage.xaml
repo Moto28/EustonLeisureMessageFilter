@@ -5,12 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EustonLeisureMessageFilter"
         mc:Ignorable="d"
-        Title="CreateMessage" Height="300" Width="300"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
-    <Grid>
+        Title="CreateMessage" Height="350" Width="910.191"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
         <!-- creates a custom window for the login page-->
-        <Rectangle  Fill="#FF5869B8" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="-112,-3,-393,-47" MouseDown="Rectangle_MouseDown"/>
+        <Rectangle  Fill="#FF5869B8" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="46,0,0,0" MouseDown="Rectangle_MouseDown"/>
         <!-- creates a elements that groups controls for and other UI elemets for the window -->
-
+        <!-- window header-->
+        <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="27" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="749,22,29,306">
+            <Button.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFE2D6DA" Offset="0.23"/>
+                    <GradientStop Color="Red" Offset="1"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
         <!--exit button-->
+        <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="162,10,193,285"/>
+
+
+        <!--textboxs and labels-->
+        <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="79,85,725,235"/>
+        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,238" GotFocus="messageTypeComboBox_GotFocus">
+            <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
+            <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
+            <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
+        </ComboBox>
+
+        <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="79,150,725,170"/>
+        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="79,120,725,200"/>
+        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="79,247,725,73"/>
+        <TextBox Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623"/>
+
+
+
+
+
+
     </Grid>
 </Window>

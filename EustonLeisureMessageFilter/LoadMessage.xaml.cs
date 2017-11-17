@@ -15,21 +15,18 @@ using System.Windows.Shapes;
 namespace EustonLeisureMessageFilter
 {
     /// <summary>
-    /// Interaction logic for CreateMessage.xaml
+    /// Interaction logic for LoadMessage.xaml
     /// </summary>
-    public partial class CreateMessage : Window
+    public partial class LoadMessage : Window
     {
-        public CreateMessage()
+        public LoadMessage()
         {
             InitializeComponent();
-            subjectLbl.Visibility = Visibility.Hidden;
-            subjectTxtBox.Visibility = Visibility.Hidden;
         }
 
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //allows the window to move
-            DragMove();
+
         }
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
@@ -37,22 +34,6 @@ namespace EustonLeisureMessageFilter
             MainWindow newWindow = new MainWindow();
             newWindow.Show();
             this.Close();
-        }
-
-        private void messageTypeComboBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-            if (messageTypeComboBox.Text.ToString() == "E")
-            {
-                subjectLbl.Visibility = Visibility.Visible;
-                subjectTxtBox.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                subjectLbl.Visibility = Visibility.Hidden;
-                subjectTxtBox.Visibility = Visibility.Hidden;
-            }
-
         }
     }
 }
