@@ -12,18 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace EustonLeisureMessageFilter
 {
+
     /// <summary>
     /// Interaction logic for CreateMessage.xaml
     /// </summary>
     public partial class CreateMessage : Window
     {
+        Validation valid = new Validation();
+
         public CreateMessage()
         {
             InitializeComponent();
             subjectLbl.Visibility = Visibility.Hidden;
             subjectTxtBox.Visibility = Visibility.Hidden;
+            twitter.Visibility = Visibility.Hidden;
         }
 
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
@@ -39,20 +44,55 @@ namespace EustonLeisureMessageFilter
             this.Close();
         }
 
-        private void messageTypeComboBox_GotFocus(object sender, RoutedEventArgs e)
+        private void MessageTypeComboBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
-            if (messageTypeComboBox.Text.ToString() == "E")
+            valid.GetMessageTypeSetWindow(this);
+            if (valid.MessageType == "T")
             {
-                subjectLbl.Visibility = Visibility.Visible;
-                subjectTxtBox.Visibility = Visibility.Visible;
+                senderTxtBox.Text = "@";
             }
-            else
-            {
-                subjectLbl.Visibility = Visibility.Hidden;
-                subjectTxtBox.Visibility = Visibility.Hidden;
-            }
+        }
 
+        private void MessageTypeTxtBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            valid.CheckIsNumeric(e);
+        }
+        private void SenderTypeTxtBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (valid.MessageType == "S")
+            {
+                valid.CheckIsNumeric(e);
+            }
+        }
+
+        private void createBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(valid.MessageType);
+            if (valid.MessageType == "E")
+            {
+                //checks e-mail
+                valid.CheckEmail(senderTxtBox.Text);
+                //creates varibles for adding to JSON file
+                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
+                string senderTxt = senderTxtBox.Text;
+                string subject = subjectTxtBox.Text;
+                string message = messageTxtBox.Text;
+
+            }
+            if (valid.MessageType == "S")
+            {
+                valid.CheckNumber(senderTxtBox.Text);
+                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
+                string senderTxt = senderTxtBox.Text;
+                string subject = subjectTxtBox.Text;
+                string message = messageTxtBox.Text;
+            }
+            if (valid.MessageType == "T")
+            {
+                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
+                string senderTxt = senderTxtBox.Text;
+                string message = messageTxtBox.Text;
+            }
         }
     }
 }

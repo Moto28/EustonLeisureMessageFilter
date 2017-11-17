@@ -24,26 +24,25 @@
             </Button.Background>
         </Button>
         <!--exit button-->
-        <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="162,10,193,285"/>
+        <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="162,10,193,289"/>
 
 
         <!--textboxs and labels-->
         <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="79,85,725,235"/>
-        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,238" GotFocus="messageTypeComboBox_GotFocus">
+        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,238" GotFocus="MessageTypeComboBox_GotFocus">
             <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
             <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
             <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
         </ComboBox>
-
         <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="79,150,725,170"/>
         <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
         <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="79,120,725,200"/>
-        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput"/>
         <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="79,247,725,73"/>
-        <TextBox Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623"/>
-
-
-
+        <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623" MaxLength="140"/>
+        <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="244,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
+        <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="150,118,725,197"/>
+        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="599,126,0,0" VerticalAlignment="Top" Width="143" Height="54" Click="createBtn_Click"/>
 
 
 
