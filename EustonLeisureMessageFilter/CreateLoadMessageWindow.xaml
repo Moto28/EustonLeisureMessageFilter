@@ -42,7 +42,8 @@
         <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623" MaxLength="140"/>
         <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="244,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
         <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="150,118,725,197"/>
-        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="599,126,0,0" VerticalAlignment="Top" Width="143" Height="54" Click="createBtn_Click"/>
+        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="641,92,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="createBtn_Click"/>
+        <Button x:Name="loadBtn" Content="Load" HorizontalAlignment="Left" Margin="641,139,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="LoadBtn_Click"/>
 
 
 

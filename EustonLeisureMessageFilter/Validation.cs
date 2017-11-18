@@ -66,8 +66,6 @@ namespace EustonLeisureMessageFilter
             window.subjectTxtBox.Clear();
 
 
-
-
             //what the comboBox has been set to 
             if (window.messageTypeComboBox.Text.ToString() == "E")
             {

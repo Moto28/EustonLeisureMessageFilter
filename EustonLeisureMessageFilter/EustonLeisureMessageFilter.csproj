@@ -59,7 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Message.cs" />
     <Compile Include="Validation.cs" />
-    <Page Include="CreateMessage.xaml">
+    <Page Include="CreateLoadMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,8 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CreateMessage.xaml.cs">
-      <DependentUpon>CreateMessage.xaml</DependentUpon>
+    <Compile Include="CreateLoadMessageWindow.xaml.cs">
+      <DependentUpon>CreateLoadMessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
