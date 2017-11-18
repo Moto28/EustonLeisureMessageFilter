@@ -20,6 +20,7 @@ namespace EustonLeisureMessageFilter
             subject = Subject;
             messageTxt = MessageTxt;
         }
+
         public string MessageId
         {
             get
@@ -63,11 +64,6 @@ namespace EustonLeisureMessageFilter
             {
                 subject = value;
             }
-        }
-
-        public void AddToFile()
-        {
-
         }
     }
 
