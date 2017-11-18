@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,32 +69,41 @@ namespace EustonLeisureMessageFilter
 
         private void createBtn_Click(object sender, RoutedEventArgs e)
         {
+            Message message = new Message();
+
             MessageBox.Show(valid.MessageType);
             if (valid.MessageType == "E")
             {
                 //checks e-mail
                 valid.CheckEmail(senderTxtBox.Text);
                 //creates varibles for adding to JSON file
-                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
-                string senderTxt = senderTxtBox.Text;
-                string subject = subjectTxtBox.Text;
-                string message = messageTxtBox.Text;
+                message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
+                message.SenderTxt = senderTxtBox.Text;
+                message.Subject = subjectTxtBox.Text;
+                message.MessageTxt = messageTxtBox.Text;
 
             }
             if (valid.MessageType == "S")
             {
                 valid.CheckNumber(senderTxtBox.Text);
-                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
-                string senderTxt = senderTxtBox.Text;
-                string subject = subjectTxtBox.Text;
-                string message = messageTxtBox.Text;
+                //creates varibles for adding to JSON file
+                message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
+                message.SenderTxt = senderTxtBox.Text;
+                message.Subject = subjectTxtBox.Text;
+                message.MessageTxt = messageTxtBox.Text;
             }
             if (valid.MessageType == "T")
             {
-                string messageId = messageTypeComboBox.Text + messageTxtBox.Text;
-                string senderTxt = senderTxtBox.Text;
-                string message = messageTxtBox.Text;
+                //creates varibles for adding to JSON file
+                message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
+                message.SenderTxt = senderTxtBox.Text;
+                message.Subject = subjectTxtBox.Text;
+                message.MessageTxt = messageTxtBox.Text;
             }
+            StreamWriter write = new StreamWriter(@"JsonMessage.txt", true);
+            write.WriteLine(JsonConvert.SerializeObject(message, Formatting.Indented));
+            write.Close();
+
         }
     }
 }

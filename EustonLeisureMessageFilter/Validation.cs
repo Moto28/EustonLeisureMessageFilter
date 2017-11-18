@@ -61,9 +61,9 @@ namespace EustonLeisureMessageFilter
         public void GetMessageTypeSetWindow(CreateMessage window)
         {
 
-            window.senderTxtBox.Text = " ";
-            window.messageTypeTxtBox.Text = " ";
-            window.subjectTxtBox.Text = " ";
+            window.senderTxtBox.Clear();
+            window.messageTypeTxtBox.Clear();
+            window.subjectTxtBox.Clear();
 
 
 
@@ -140,8 +140,6 @@ namespace EustonLeisureMessageFilter
             {
                 isEmailValid = false;
             }
-
-            MessageBox.Show(isEmailValid.ToString());
         }
     }
 }
