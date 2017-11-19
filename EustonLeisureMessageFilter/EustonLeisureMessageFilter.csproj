@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -57,7 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Message.cs" />
+    <Compile Include="MessageType\EmailMessage.cs" />
+    <Compile Include="MessageType\Message.cs" />
+    <Compile Include="MessageType\SmsMessage.cs" />
+    <Compile Include="MessageType\TweetMessage.cs" />
     <Compile Include="Validation.cs" />
     <Page Include="CreateLoadMessageWindow.xaml">
       <SubType>Designer</SubType>

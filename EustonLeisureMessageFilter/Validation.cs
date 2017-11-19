@@ -113,6 +113,7 @@ namespace EustonLeisureMessageFilter
                 e.Handled = true;
             }
         }
+
         public void CheckNumber(string phoneNumber)
         {
             string MatchPhoneNumberPattern = "^/(?([0-9]{3})/)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
@@ -126,6 +127,7 @@ namespace EustonLeisureMessageFilter
                 MessageBox.Show("A valid phone number must be entered");
             }
         }
+
         public void CheckEmail(string emailaddress)
         {
             try
@@ -138,6 +140,11 @@ namespace EustonLeisureMessageFilter
             {
                 isEmailValid = false;
             }
+        }
+
+        public void CheckForTextSpeak(List<Message> messages)
+        {
+
         }
     }
 }

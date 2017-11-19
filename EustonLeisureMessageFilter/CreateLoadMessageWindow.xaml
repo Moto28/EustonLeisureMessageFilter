@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EustonLeisureMessageFilter"
         mc:Ignorable="d"
-        Title="CreateMessage" Height="352.155" Width="910.191"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+        Title="CreateMessage" Height="456.886" Width="910.191"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <!-- creates a custom window for the login page-->
-        <Rectangle  Fill="#FF5869B8" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="46,0,0,0" MouseDown="Rectangle_MouseDown"/>
+        <Rectangle  Fill="#FF394FB6" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="37,0,0,0" MouseDown="Rectangle_MouseDown" HorizontalAlignment="Left" Width="844"/>
         <!-- creates a elements that groups controls for and other UI elemets for the window -->
         <!-- window header-->
-        <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="26" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="802,19,82,492">
+        <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="26" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="800,19,84,416">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FFE2D6DA" Offset="0.23"/>
@@ -24,25 +24,31 @@
             </Button.Background>
         </Button>
         <!--exit button-->
-        <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="162,10,193,289"/>
+        <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="164,19,191,388"/>
 
 
         <!--textboxs and labels-->
-        <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="79,85,725,235"/>
-        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,241" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543">
+        <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="214,202,590,222"/>
+        <ComboBox Name="messageTypeComboBox" Margin="324,210,537,228" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543">
             <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
             <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
             <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
         </ComboBox>
-        <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="79,150,725,170"/>
-        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
-        <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="79,120,725,200"/>
-        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="190,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput"/>
-        <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="79,247,725,73"/>
-        <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623" MaxLength="140"/>
-        <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="244,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
-        <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="150,118,725,197"/>
-        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="641,92,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="createBtn_Click"/>
-        <Button x:Name="loadBtn" Content="Load" HorizontalAlignment="Left" Margin="641,139,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="LoadBtn_Click"/>
+        <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="214,267,0,160" HorizontalAlignment="Left" Width="106"/>
+        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="324,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="214,233,590,193"/>
+        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="324,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput"/>
+        <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="79,351,725,66"/>
+        <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="173,319,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623" MaxLength="140"/>
+        <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="378,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
+        <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="284,229,591,188"/>
+        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="510,229,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="createBtn_Click"/>
+        <Button x:Name="loadBtn" Content="Load File" HorizontalAlignment="Left" Margin="653,229,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="LoadBtn_Click"/>
+        <ListBox x:Name="SmsListBox" HorizontalAlignment="Left" Height="64" Margin="79,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="SmsListBox_SelectionChanged" />
+        <ListBox x:Name="EMailListBox" HorizontalAlignment="Left" Height="64" Margin="350,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="EMailListBox_SelectionChanged"/>
+        <ListBox x:Name="TweetListBox" HorizontalAlignment="Left" Height="64" Margin="610,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="TweetListBox_SelectionChanged"/>
+        <Label x:Name="messageTypeLbl_Copy" Content="SMS" Foreground="White" FontSize="15" Margin="164,84,705,340" RenderTransformOrigin="0.472,0.965"/>
+        <Label x:Name="messageTypeLbl_Copy1" Content="E-Mails" Foreground="White" FontSize="15" Margin="428,85,422,339"/>
+        <Label x:Name="messageTypeLbl_Copy2" Content="Tweets" Foreground="White" FontSize="15" Margin="683,86,162,338"/>
     </Grid>
 </Window>
