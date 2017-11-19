@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EustonLeisureMessageFilter"
         mc:Ignorable="d"
-        Title="CreateMessage" Height="350" Width="910.191"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
+        Title="CreateMessage" Height="352.155" Width="910.191"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -15,7 +15,7 @@
         <Rectangle  Fill="#FF5869B8" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.85" RadiusY="30.5" RadiusX="30.5" Margin="46,0,0,0" MouseDown="Rectangle_MouseDown"/>
         <!-- creates a elements that groups controls for and other UI elemets for the window -->
         <!-- window header-->
-        <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="27" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="749,22,29,306">
+        <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="26" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="802,19,82,492">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FFE2D6DA" Offset="0.23"/>
@@ -29,7 +29,7 @@
 
         <!--textboxs and labels-->
         <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="79,85,725,235"/>
-        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,238" GotFocus="MessageTypeComboBox_GotFocus">
+        <ComboBox Name="messageTypeComboBox" Margin="190,92,671,241" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543">
             <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
             <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
             <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
@@ -44,8 +44,5 @@
         <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="150,118,725,197"/>
         <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="641,92,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="createBtn_Click"/>
         <Button x:Name="loadBtn" Content="Load" HorizontalAlignment="Left" Margin="641,139,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="LoadBtn_Click"/>
-
-
-
     </Grid>
 </Window>

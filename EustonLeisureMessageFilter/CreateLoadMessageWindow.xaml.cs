@@ -25,7 +25,8 @@ namespace EustonLeisureMessageFilter
     public partial class CreateMessage : Window
     {
         Validation valid = new Validation();
-        List<Message> messageList = new List<Message>();
+        List<Message> CreateMessageList = new List<Message>();
+        List<Message> LoadMessageList = new List<Message>();
         int clickCount;
 
         public CreateMessage()
@@ -35,13 +36,6 @@ namespace EustonLeisureMessageFilter
             subjectLbl.Visibility = Visibility.Hidden;
             subjectTxtBox.Visibility = Visibility.Hidden;
             twitter.Visibility = Visibility.Hidden;
-            //deactivates controls
-            messageTypeComboBox.IsEnabled = false;
-            messageTypeTxtBox.IsEnabled = false;
-            senderTxtBox.IsEnabled = false;
-            messageTxtBox.IsEnabled = false;
-            createBtn.Content = "Start";
-
         }
 
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
@@ -80,88 +74,56 @@ namespace EustonLeisureMessageFilter
 
         private void createBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (clickCount == 0)
-            {
-                //changes create buuton text to start
-                createBtn.Content = "Start";
-                //turns ui controls on 
-                messageTypeComboBox.IsEnabled = true;
-                messageTypeTxtBox.IsEnabled = true;
-                senderTxtBox.IsEnabled = true;
-                messageTxtBox.IsEnabled = true;
-                //sets click count
-                clickCount = 1;
-                MessageBox.Show("Click create to add your message");
-            }
-            if (clickCount == 1)
-            {
-                //changes create button text
-                createBtn.Content = "Create";
-                //creates new message obj
-                Message message = new Message();
+            // Write the string to a file.
+            string line = string.Format("{0},{1},{2},{3},{4}", messageTypeComboBox.Text, messageTypeTxtBox.Text, senderTxtBox.Text, subjectTxtBox.Text, messageTxtBox.Text);
+            StreamWriter file = new StreamWriter(@"Message.csv", true);
+            file.WriteLine(line);
+            file.Close();
+            messageTxtBox.Clear();
+            senderTxtBox.Clear();
+            subjectTxtBox.Clear();
+            messageTxtBox.Clear();
+            messageTypeTxtBox.Clear();
+            messageTypeComboBox.SelectedIndex = -1;
+            //changes create buuton text to start
 
-                //depending on the form type creates a json object
-                if (valid.MessageType == "E")
-                {
-                    //checks e-mail
-                    valid.CheckEmail(senderTxtBox.Text);
-                    //creates varibles for adding to JSON file
-                    message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
-                    message.SenderTxt = senderTxtBox.Text;
-                    message.Subject = subjectTxtBox.Text;
-                    message.MessageTxt = messageTxtBox.Text;
-
-                }
-                if (valid.MessageType == "S")
-                {
-                    valid.CheckNumber(senderTxtBox.Text);
-                    //creates varibles for adding to JSON file
-                    message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
-                    message.SenderTxt = senderTxtBox.Text;
-                    message.Subject = subjectTxtBox.Text;
-                    message.MessageTxt = messageTxtBox.Text;
-                }
-                if (valid.MessageType == "T")
-                {
-                    //creates varibles for adding to JSON file
-                    message.MessageId = messageTypeComboBox.Text + messageTypeTxtBox.Text;
-                    message.SenderTxt = senderTxtBox.Text;
-                    message.Subject = subjectTxtBox.Text;
-                    message.MessageTxt = messageTxtBox.Text;
-                }
-                messageList.Add(message);
-
-                String json = JsonConvert.SerializeObject(messageList, Formatting.Indented);
-                System.IO.File.WriteAllText(@"JsonMessage.Json", json);
-                ////writes the json object to text file
-                //StreamWriter write = new StreamWriter(@"JsonMessage.Json", true);
-                //string json = JsonConvert.SerializeObject(message, Formatting.Indented);
-                //write.WriteLine(json);
-                //write.Close();
-                //resets click count
-                clickCount = 0;
-
-                messageTxtBox.Clear();
-                senderTxtBox.Clear();
-                subjectTxtBox.Clear();
-                messageTxtBox.Clear();
-                messageTypeTxtBox.Clear();
-                messageTypeComboBox.SelectedIndex = -1;
-            }
         }
 
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
-            using (StreamReader reader = new StreamReader(@"JsonMessage.Json"))
+            using (var reader = new StreamReader(@"Message.csv"))
             {
 
-                string json = reader.ReadToEnd();
-                dynamic messages = JsonConvert.DeserializeObject(json);
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
 
+                    messageTypeComboBox.Text = values[0];
+                    messageTypeTxtBox.Text = values[1];
+                    senderTxtBox.Text = values[2];
+                    subjectTxtBox.Text = values[3];
+                    messageTxtBox.Text = values[4];
+
+                    if (messageTypeComboBox.Text == "S")
+                    {
+                        MessageBox.Show("SMS Loaded");
+                    }
+                    else if (messageTypeComboBox.Text == "E")
+                    {
+                        MessageBox.Show("E-Mail Loaded");
+                    }
+                    else if (messageTypeComboBox.Text == "T")
+                    {
+                        MessageBox.Show("Tweet Loaded");
+                    }
+                }
             }
         }
+
     }
 }
+
 
 
 
