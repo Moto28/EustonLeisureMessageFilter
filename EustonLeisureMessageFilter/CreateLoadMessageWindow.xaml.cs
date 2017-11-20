@@ -28,11 +28,12 @@ namespace EustonLeisureMessageFilter
     {
         Validation valid = new Validation();
         Dictionary<string, string> textwords = new Dictionary<string, string>();
-        List<Message> smsList = new List<Message>();
-        List<Message> emailList = new List<Message>();
-        List<Message> tweetList = new List<Message>();
 
-        string result;
+
+        int counter;
+        bool found;
+
+
 
         public CreateMessage()
         {
@@ -70,6 +71,7 @@ namespace EustonLeisureMessageFilter
         {
             valid.CheckIsNumeric(e);
         }
+
         private void SenderTypeTxtBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (valid.MessageType == "S")
@@ -105,6 +107,9 @@ namespace EustonLeisureMessageFilter
 
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
+            List<Message> tweetList = new List<Message>();
+            List<Message> smsList = new List<Message>();
+            List<Message> emailList = new List<Message>();
 
             smsList.Clear();
             emailList.Clear();
@@ -156,7 +161,6 @@ namespace EustonLeisureMessageFilter
             }
         }
 
-
         private void DomainExists()
         {
             using (FileStream reader = File.OpenRead(@"textwords.csv")) // mind the encoding - UTF8
@@ -184,35 +188,62 @@ namespace EustonLeisureMessageFilter
 
         private void SmsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ClearValues();
-            var sms = ((SmsMessage)SmsListBox.SelectedItem);
-            messageTypeComboBox.Text = sms.MessageId[0].ToString();
-            messageTypeTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).MessageId;
-            senderTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).SenderTxt;
-            messageTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).MessageTxt;
-            CheckForSpeak(sms);
+            try
+            {
+                ClearValues();
+                var sms = ((SmsMessage)SmsListBox.SelectedItem);
+                messageTypeComboBox.Text = sms.MessageId[0].ToString();
+                messageTypeTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).MessageId;
+                senderTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).SenderTxt;
+                messageTxtBox.Text = ((SmsMessage)SmsListBox.SelectedItem).MessageTxt;
+                CheckForSpeak(sms);
+            }
+            catch
+            {
+
+            }
+
 
         }
 
         private void EMailListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ClearValues();
-            var eMail = ((EmailMessage)SmsListBox.SelectedItem);
-            messageTypeComboBox.Text = eMail.MessageId[0].ToString();
-            messageTypeTxtBox.Text = ((EmailMessage)SmsListBox.SelectedItem).MessageId;
-            senderTxtBox.Text = ((EmailMessage)SmsListBox.SelectedItem).SenderTxt;
-            messageTxtBox.Text = ((EmailMessage)SmsListBox.SelectedItem).MessageTxt; ;
+            try
+            {
+                ClearValues();
+                var eMail = ((EmailMessage)EMailListBox.SelectedItem);
+                messageTypeComboBox.Text = eMail.MessageId[0].ToString();
+                messageTypeTxtBox.Text = ((EmailMessage)EMailListBox.SelectedItem).MessageId;
+                senderTxtBox.Text = ((EmailMessage)EMailListBox.SelectedItem).SenderTxt;
+                messageTxtBox.Text = ((EmailMessage)EMailListBox.SelectedItem).MessageTxt;
+                string text = messageTxtBox.Text;
+                CheckForURL(eMail);
+            }
+            catch
+            {
+
+            }
+
         }
 
         private void TweetListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ClearValues();
-            var tweet = ((TweetMessage)SmsListBox.SelectedItem);
-            messageTypeComboBox.Text = tweet.MessageId[0].ToString();
-            messageTypeTxtBox.Text = ((TweetMessage)SmsListBox.SelectedItem).MessageId;
-            senderTxtBox.Text = ((TweetMessage)SmsListBox.SelectedItem).SenderTxt;
-            messageTxtBox.Text = ((TweetMessage)SmsListBox.SelectedItem).MessageTxt;
-            CheckForSpeak(tweet);
+            try
+            {
+                ClearValues();
+                var tweet = ((TweetMessage)TweetListBox.SelectedItem);
+                messageTypeComboBox.Text = tweet.MessageId[0].ToString();
+                messageTypeTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).MessageId;
+                senderTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).SenderTxt;
+                messageTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).MessageTxt;
+                CheckForSpeak(tweet);
+                CheckForTweetName(tweet);
+            }
+            catch
+            {
+
+            }
+
         }
 
         private void ClearValues()
@@ -225,34 +256,77 @@ namespace EustonLeisureMessageFilter
 
         private void CheckForSpeak(Message message)
         {
-            using (var reader = new StreamReader(@"Message.csv"))
-            {
-                StringBuilder sb = new StringBuilder();
-                var line = message.MessageTxt;
-                var splits = line.Split(',');
+            StringBuilder sb = new StringBuilder();
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
 
-                foreach (var item in splits)
+            foreach (var item in splits)
+            {
+                if (textwords.ContainsKey(item.ToUpper()))
                 {
-                    if (textwords.ContainsKey(item.ToUpper()))
-                    {
-                        string converted = textwords[item.ToUpper()];
-                        //item.Replace(item, converted);
-                        sb.Append(item + "<" + converted + ">");
-                    }
-                    else
-                    {
-                        sb.Append(item + " ");
-                    }
+                    string converted = textwords[item.ToUpper()];
+                    sb.Append(item + " <" + converted + "> ");
                 }
-                messageTxtBox.Text = sb.ToString();
+                else
+                {
+                    sb.Append(item + " ");
+                }
+            }
+            messageTxtBox.Text = sb.ToString();
+        }
+
+        private void CheckForTweetName(Message message)
+        {
+            List<string> mentionsList = new List<string>();
+
+            StringBuilder sb = new StringBuilder();
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var word in splits)
+            {
+                counter = 0;
+                if (word[0] == '@')
+                {
+                    counter++;
+                    mentionsList.Add(word + " = " + counter);
+                }
             }
 
+            MentionBox.ItemsSource = mentionsList;
+        }
+        private void CheckForURL(Message message)
+        {
+            List<string> quarantineList = new List<string>();
+
+            string replaced = null;
+            StringBuilder sb = new StringBuilder();
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var item in splits)
+            {
+
+                replaced = Regex.Replace(line, @"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))", "<quar>");
+                sb.Append(replaced);
+                Regex regex = new Regex(@"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))");
+                if (regex.IsMatch(item))
+                    quarantineList.Add(item);
+
+            }
+
+            messageTxtBox.Text = replaced;
+            QuarantinedBox.ItemsSource = quarantineList;
 
         }
 
     }
 
+
 }
+
+
+
 
 
 

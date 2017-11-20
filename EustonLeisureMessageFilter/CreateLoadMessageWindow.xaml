@@ -28,27 +28,31 @@
 
 
         <!--textboxs and labels-->
-        <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="214,202,590,222"/>
-        <ComboBox Name="messageTypeComboBox" Margin="324,210,537,228" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543">
+        <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="70,217,734,207"/>
+        <ComboBox Name="messageTypeComboBox" Margin="176,224,685,214" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543" >
             <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
             <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
             <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
         </ComboBox>
-        <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="214,267,0,160" HorizontalAlignment="Left" Width="106"/>
-        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="324,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
-        <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="214,233,590,193"/>
-        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="324,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput"/>
+        <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="70,277,0,150" HorizontalAlignment="Left" Width="106"/>
+        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="19" Margin="173,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="70,248,734,178"/>
+        <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="173,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput"/>
         <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="79,351,725,66"/>
-        <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="173,319,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="623" MaxLength="140"/>
-        <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="378,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
-        <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="284,229,591,188"/>
-        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="510,229,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="createBtn_Click"/>
-        <Button x:Name="loadBtn" Content="Load File" HorizontalAlignment="Left" Margin="653,229,0,0" VerticalAlignment="Top" Width="143" Height="41" Click="LoadBtn_Click"/>
-        <ListBox x:Name="SmsListBox" HorizontalAlignment="Left" Height="64" Margin="79,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="SmsListBox_SelectionChanged" />
-        <ListBox x:Name="EMailListBox" HorizontalAlignment="Left" Height="64" Margin="350,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="EMailListBox_SelectionChanged"/>
-        <ListBox x:Name="TweetListBox" HorizontalAlignment="Left" Height="64" Margin="610,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" SelectionChanged="TweetListBox_SelectionChanged"/>
+        <TextBox x:Name="messageTxtBox" HorizontalAlignment="Left" Height="111" Margin="173,319,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="370" MaxLength="140"/>
+        <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left" Height="19" Margin="227,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput" />
+        <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="141,245,734,172"/>
+        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="610,262,0,0" VerticalAlignment="Top" Width="216" Height="41" Click="createBtn_Click"/>
+        <Button x:Name="loadBtn" Content="Load File" HorizontalAlignment="Left" Margin="610,209,0,0" VerticalAlignment="Top" Width="216" Height="41" Click="LoadBtn_Click"/>
+        <ListBox x:Name="SmsListBox" HorizontalAlignment="Left" Height="64" Margin="79,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" Background="#FFB0ABAB" SelectionChanged="SmsListBox_SelectionChanged" />
+        <ListBox x:Name="EMailListBox" HorizontalAlignment="Left" Height="64" Margin="350,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" Background="#FFB0ABAB" SelectionChanged="EMailListBox_SelectionChanged"/>
+        <ListBox x:Name="TweetListBox" HorizontalAlignment="Left" Height="64" Margin="610,121,0,0" VerticalAlignment="Top" Width="216" DisplayMemberPath="MessageId" Background="#FFB0ABAB" SelectionChanged="TweetListBox_SelectionChanged"/>
         <Label x:Name="messageTypeLbl_Copy" Content="SMS" Foreground="White" FontSize="15" Margin="164,84,705,340" RenderTransformOrigin="0.472,0.965"/>
         <Label x:Name="messageTypeLbl_Copy1" Content="E-Mails" Foreground="White" FontSize="15" Margin="428,85,422,339"/>
-        <Label x:Name="messageTypeLbl_Copy2" Content="Tweets" Foreground="White" FontSize="15" Margin="683,86,162,338"/>
+        <Label x:Name="messageTypeLbl_Copy2" Content="Tweets" Foreground="White" FontSize="15" Margin="683,86,162,338" IsEnabled="false"/>
+        <ListBox x:Name="MentionBox" HorizontalAlignment="Left" Height="79" Margin="393,224,0,0" VerticalAlignment="Top" Width="150" Background="#FFB0ABAB"/>
+        <Label x:Name="messageTypeLbl_Copy3" Content="Mentions" Foreground="White" FontSize="15" Margin="428,185,409,239"/>
+        <ListBox x:Name="QuarantinedBox" HorizontalAlignment="Left" Height="79" Margin="567,351,0,0" VerticalAlignment="Top" Width="259" BorderBrush="#FF1D49CB" Background="#FFB0ABAB" Foreground="Black" DisplayMemberPath=""/>
+        <Label x:Name="messageTypeLbl_Copy4" Content="URL's Quarantined" Foreground="White" FontSize="15" Margin="623,313,139,111"/>
     </Grid>
 </Window>
