@@ -283,15 +283,18 @@ namespace EustonLeisureMessageFilter
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
+            counter = 0;
             foreach (var word in splits)
             {
-                counter = 0;
                 if (word[0] == '@')
                 {
-                    counter++;
-                    mentionsList.Add(word + " = " + counter);
+                    mentionsList.Add(word);
                 }
             }
+            int res = (from x in mentionsList select x).Distinct().Count();
+
+            MessageBox.Show(res.ToString());
+
 
             MentionBox.ItemsSource = mentionsList;
         }
@@ -300,15 +303,13 @@ namespace EustonLeisureMessageFilter
             List<string> quarantineList = new List<string>();
 
             string replaced = null;
-            StringBuilder sb = new StringBuilder();
+
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
             foreach (var item in splits)
             {
-
                 replaced = Regex.Replace(line, @"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))", "<quar>");
-                sb.Append(replaced);
                 Regex regex = new Regex(@"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))");
                 if (regex.IsMatch(item))
                     quarantineList.Add(item);
