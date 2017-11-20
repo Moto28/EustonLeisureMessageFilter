@@ -60,6 +60,7 @@
     </ApplicationDefinition>
     <Compile Include="MessageType\EmailMessage.cs" />
     <Compile Include="MessageType\Message.cs" />
+    <Compile Include="MessageType\SirEmailMessage.cs" />
     <Compile Include="MessageType\SmsMessage.cs" />
     <Compile Include="MessageType\TweetMessage.cs" />
     <Compile Include="Validation.cs" />

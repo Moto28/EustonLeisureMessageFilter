@@ -28,10 +28,9 @@ namespace EustonLeisureMessageFilter
     {
         Validation valid = new Validation();
         Dictionary<string, string> textwords = new Dictionary<string, string>();
+        List<string> mentionsList = new List<string>();
+        List<string> trendingList = new List<string>();
 
-
-        int counter;
-        bool found;
 
 
 
@@ -83,7 +82,7 @@ namespace EustonLeisureMessageFilter
         private void createBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            if (messageTypeComboBox.Text.Length <= 0 || messageTypeTxtBox.Text.Length <= 0 || senderTxtBox.Text.Length <= 0 || messageTxtBox.Text.Length <= 0)
+            if (messageTypeComboBox.Text.Length <= 0 || messageTypeTxtBox.Text.Length < 9 || senderTxtBox.Text.Length <= 0 || messageTxtBox.Text.Length <= 0)
             {
                 MessageBox.Show("your must fill in all setions of the form to continue");
             }
@@ -114,6 +113,8 @@ namespace EustonLeisureMessageFilter
             smsList.Clear();
             emailList.Clear();
             tweetList.Clear();
+            mentionsList.Clear();
+            trendingList.Clear();
 
             using (var reader = new StreamReader(@"Message.csv"))
             {
@@ -158,6 +159,12 @@ namespace EustonLeisureMessageFilter
                 SmsListBox.ItemsSource = smsList;
                 EMailListBox.ItemsSource = emailList;
                 TweetListBox.ItemsSource = tweetList;
+                foreach (var item in tweetList)
+                {
+                    CheckForTweetName(item);
+                    CheckForTweetTrend(item);
+                }
+
             }
         }
 
@@ -237,7 +244,7 @@ namespace EustonLeisureMessageFilter
                 senderTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).SenderTxt;
                 messageTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).MessageTxt;
                 CheckForSpeak(tweet);
-                CheckForTweetName(tweet);
+                //CheckForTweetName(tweet);
             }
             catch
             {
@@ -252,6 +259,7 @@ namespace EustonLeisureMessageFilter
             messageTypeTxtBox.Text = "";
             senderTxtBox.Text = "";
             messageTxtBox.Text = "";
+            QuarantinedBox.ItemsSource = "";
         }
 
         private void CheckForSpeak(Message message)
@@ -277,13 +285,12 @@ namespace EustonLeisureMessageFilter
 
         private void CheckForTweetName(Message message)
         {
-            List<string> mentionsList = new List<string>();
 
-            StringBuilder sb = new StringBuilder();
+
+
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
-            counter = 0;
             foreach (var word in splits)
             {
                 if (word[0] == '@')
@@ -291,12 +298,57 @@ namespace EustonLeisureMessageFilter
                     mentionsList.Add(word);
                 }
             }
-            int res = (from x in mentionsList select x).Distinct().Count();
 
-            MessageBox.Show(res.ToString());
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            foreach (string word in mentionsList)
+            {
+                if (dictionary.ContainsKey(word))
+                {
+                    dictionary[word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(word, 1);
+                }
+            }
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+            MentionBox.ItemsSource = sortedDict;
+
+        }
+
+        private void CheckForTweetTrend(Message message)
+        {
 
 
-            MentionBox.ItemsSource = mentionsList;
+
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var word in splits)
+            {
+                if (word[0] == '#')
+                {
+                    trendingList.Add(word);
+                }
+            }
+
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            foreach (string word in trendingList)
+            {
+                if (dictionary.ContainsKey(word))
+                {
+                    dictionary[word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(word, 1);
+                }
+            }
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+            trendingBox.ItemsSource = sortedDict;
+
         }
         private void CheckForURL(Message message)
         {

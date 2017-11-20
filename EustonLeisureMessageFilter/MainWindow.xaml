@@ -9,7 +9,7 @@
 
     <Grid>
         <!-- creates a custom window for the login page-->
-        <Rectangle  Fill="#FF394FB6" HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="805" Opacity="0.90" RadiusY="30.5" RadiusX="30.5" MouseDown="Rectangle_MouseDown"/>
+        <Rectangle  Fill="#FF394FB6" HorizontalAlignment="Left" Height="250" VerticalAlignment="Top" Width="805" Opacity="0.90" RadiusY="30.5" RadiusX="30.5" MouseDown="Rectangle_MouseDown"/>
         <!-- creates a elements that groups controls for and other UI elemets for the window -->
         <Button x:Name="exitBtn" Content="X" Canvas.Left="493" Width="27" Click="ExitBtn_Click" RenderTransformOrigin="0.635,0.7" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0303" AutomationProperties.HelpText="Closes Simply Rubgy CRM" Canvas.Top="-13" Margin="749,22,29,306">
             <Button.Background>
@@ -22,7 +22,7 @@
 
         </Button>
         <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="131,10,120,285"/>
-        <Button x:Name="CreateBtn" Content="Create/Load Meassage" Margin="188,144,211,137" Click="CreateBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White"/>
+        <Button x:Name="CreateBtn" Content="Create/Load Meassage" Margin="194,110,205,171" Click="CreateBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White"/>
 
     </Grid>
 </Window>

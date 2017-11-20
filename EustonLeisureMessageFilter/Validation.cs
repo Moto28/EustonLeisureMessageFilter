@@ -142,9 +142,5 @@ namespace EustonLeisureMessageFilter
             }
         }
 
-        public void CheckForTextSpeak(List<Message> messages)
-        {
-
-        }
     }
 }
