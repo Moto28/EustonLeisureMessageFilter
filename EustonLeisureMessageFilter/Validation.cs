@@ -64,15 +64,30 @@ namespace EustonLeisureMessageFilter
             window.senderTxtBox.Clear();
             window.messageTypeTxtBox.Clear();
             window.subjectTxtBox.Clear();
-
-
-            //what the comboBox has been set to 
-            if (window.messageTypeComboBox.Text.ToString() == "E")
+            if (window.subjectTxtBox.Text == "SIR" && window.messageTypeComboBox.Text.ToString() == "sir")
             {
                 //shows subject label and textbox
                 window.subjectLbl.Visibility = Visibility.Visible;
+                window.subjectDate.Visibility = Visibility.Visible;
                 window.subjectTxtBox.Visibility = Visibility.Visible;
                 window.twitter.Visibility = Visibility.Hidden;
+                window.cancelBtn.Visibility = Visibility.Visible;
+                window.subjectTxtBox.MaxLength = 20;
+                window.messageTxtBox.MaxLength = 1028;
+                window.senderTxtBox.MaxLength = 254;
+                //gets the message type
+                messageType = "E";
+            }
+            //what the comboBox has been set to 
+            else if (window.messageTypeComboBox.Text.ToString() == "E")
+            {
+                //shows subject label and textbox
+                window.subjectLbl.Visibility = Visibility.Visible;
+                window.subjectDate.Visibility = Visibility.Hidden;
+                window.subjectTxtBox.Visibility = Visibility.Visible;
+                window.twitter.Visibility = Visibility.Hidden;
+                window.SirInfoBlock.Visibility = Visibility.Visible;
+                window.cancelBtn.Visibility = Visibility.Visible;
                 window.subjectTxtBox.MaxLength = 20;
                 window.messageTxtBox.MaxLength = 1028;
                 window.senderTxtBox.MaxLength = 254;
@@ -84,8 +99,11 @@ namespace EustonLeisureMessageFilter
             {
                 //hides subject label and textbox
                 window.subjectLbl.Visibility = Visibility.Hidden;
+                window.subjectDate.Visibility = Visibility.Hidden;
                 window.subjectTxtBox.Visibility = Visibility.Hidden;
                 window.twitter.Visibility = Visibility.Hidden;
+                window.SirInfoBlock.Visibility = Visibility.Hidden;
+                window.cancelBtn.Visibility = Visibility.Hidden;
                 window.messageTxtBox.MaxLength = 140;
                 window.senderTxtBox.MaxLength = 15;
                 //gets the message type
@@ -95,8 +113,11 @@ namespace EustonLeisureMessageFilter
             {
                 //hides subject label and textbox
                 window.subjectLbl.Visibility = Visibility.Hidden;
+                window.subjectDate.Visibility = Visibility.Hidden;
                 window.subjectTxtBox.Visibility = Visibility.Hidden;
                 window.twitter.Visibility = Visibility.Visible;
+                window.SirInfoBlock.Visibility = Visibility.Hidden;
+                window.cancelBtn.Visibility = Visibility.Hidden;
                 window.messageTxtBox.MaxLength = 140;
                 window.senderTxtBox.MaxLength = 16;
                 //gets the message type

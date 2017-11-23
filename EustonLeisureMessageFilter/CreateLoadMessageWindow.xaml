@@ -24,6 +24,8 @@
             </Button.Background>
         </Button>
         <!--exit button-->
+
+
         <Label Name="progName" Content="Euston Leisure Message Filtering System" Foreground="White" FontSize="30" Margin="324,26,305,381"/>
 
 
@@ -33,13 +35,13 @@
         <Border BorderBrush="White" BorderThickness="2" HorizontalAlignment="Left" Height="562" Margin="28,116,0,-223" VerticalAlignment="Top" Width="550" Background="#FF1C2457" CornerRadius="10" Padding="2"/>
         <Border BorderBrush="white" BorderThickness="2" HorizontalAlignment="Left" Height="562" Margin="600,116,0,-223" VerticalAlignment="Top" Width="558" Background="#FF1C2457" CornerRadius="10" Padding="2"/>
         <Label Name="messageTypeLbl" Content="MessageType:" Foreground="White" FontSize="15" Margin="257,196,820,228"/>
-        <ComboBox Name="messageTypeComboBox" Margin="200,235,937,200" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543" Background="#FF171717" >
+        <ComboBox Name="messageTypeComboBox" Margin="200,235,937,200" GotFocus="MessageTypeComboBox_GotFocus" RenderTransformOrigin="0.554,0.543" Background="#FF171717" SelectionChanged="messageTypeComboBox_SelectionChanged" >
             <ComboBoxItem Name="comboSMS">S</ComboBoxItem>
             <ComboBoxItem Name="comboEmail">E</ComboBoxItem>
             <ComboBoxItem Name="comboTweet">T</ComboBoxItem>
         </ComboBox>
         <Label x:Name="subjectLbl" Content="Subject:" Foreground="White" FontSize="15" Margin="274,323,0,104" HorizontalAlignment="Left" Width="70"/>
-        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="20" Margin="200,351,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" FontFamily="Arial Nova Light" Background="#FF171717"/>
+        <TextBox Name="subjectTxtBox" HorizontalAlignment="Left" Height="20" Margin="200,351,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" FontFamily="Arial Nova Light" Background="#FF171717" TextChanged="subjectTxtBox_TextChanged" Foreground="White"/>
         <Label x:Name="senderLbl" Content="Sender:" Foreground="White" FontSize="15" Margin="276,260,837,166"/>
         <TextBox Name="senderTxtBox" HorizontalAlignment="Left" Height="19" Margin="200,294,0,0"  Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="216" PreviewTextInput="SenderTypeTxtBox_PreviewTextInput" FontFamily="Arial Nova Light" Background="#FF171717"/>
         <Label x:Name="messageLbl" Content="Message:" Foreground="White" FontSize="15" Margin="266,385,838,32"/>
@@ -47,12 +49,12 @@
         <TextBox x:Name="messageTypeTxtBox" HorizontalAlignment="Left"  Foreground="White" Height="20" Margin="251,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" MaxLength="9" PreviewTextInput="MessageTypeTxtBox_PreviewTextInput"  FontFamily="Arial Nova Light" Background="#FF171717"/>
         <Label x:Name="twitter" Content="@" FontSize="20" Foreground="White" Margin="172,284,971,133"/>
         <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Margin="202,621,0,-206" VerticalAlignment="Top" Width="216" Height="40" Click="createBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White" />
-        <Button x:Name="loadBtn" Content="Load File" HorizontalAlignment="Left" Margin="772,621,0,-207" VerticalAlignment="Top" Width="216" Height="41" Click="LoadBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White"/>
+        <Button x:Name="loadBtn" Content="Load File" HorizontalAlignment="Left" Margin="657,621,0,-207" VerticalAlignment="Top" Width="216" Height="41" Click="LoadBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White"/>
         <ListBox x:Name="SmsListBox" HorizontalAlignment="Left" Height="100" Margin="630,494,0,-139" VerticalAlignment="Top" Width="216"  Foreground="White" FontFamily="Arial Nova Light" DisplayMemberPath="MessageId" Background="#FF171717" SelectionChanged="SmsListBox_SelectionChanged" />
-        <ListBox x:Name="EMailListBox" HorizontalAlignment="Left" Height="100" Margin="630,355,0,0" VerticalAlignment="Top" Width="216" Foreground="White" FontFamily="Arial Nova Light" DisplayMemberPath="MessageId" Background="#FF171717" SelectionChanged="EMailListBox_SelectionChanged" />
+        <ListBox x:Name="EMailListBox" HorizontalAlignment="Left" Height="100" Margin="630,355,0,0" VerticalAlignment="Top" Width="105" Foreground="White" FontFamily="Arial Nova Light" DisplayMemberPath="MessageId" Background="#FF171717" SelectionChanged="EMailListBox_SelectionChanged" />
         <ListBox x:Name="TweetListBox" HorizontalAlignment="Left" Height="100" Margin="630,219,0,0" VerticalAlignment="Top" Width="216"  Foreground="White" FontFamily="Arial Nova Light" DisplayMemberPath="MessageId" Background="#FF171717" SelectionChanged="TweetListBox_SelectionChanged" />
         <Label x:Name="messageTypeLbl_Copy" Content="SMS" Foreground="White" FontSize="15" Margin="713,463,425,-39" RenderTransformOrigin="0.472,0.965"/>
-        <Label x:Name="messageTypeLbl_Copy1" Content="E-Mails" Foreground="White" FontSize="15" Margin="706,324,409,100"/>
+        <Label x:Name="messageTypeLbl_Copy1" Content="E-Mails" Foreground="White" FontSize="15" Margin="652,324,463,100"/>
         <Label x:Name="messageTypeLbl_Copy2" Content="Tweets" Foreground="White" FontSize="15" Margin="708,186,417,238" IsEnabled="false"/>
         <ListBox x:Name="MentionBox" HorizontalAlignment="Left" Height="100" Margin="870,219,0,0" VerticalAlignment="Top" Width="125" Background="#FF171717"  Foreground="White" FontFamily="Arial Nova Light" />
         <Label x:Name="messageTypeLbl_Copy3" Content="Mentions" Foreground="White" FontSize="15" Margin="896,188,213,236"/>
@@ -62,8 +64,16 @@
         <Label x:Name="progName_Copy1" Content="Create/View Message" Foreground="White" FontSize="30" Margin="24,124,605,269" HorizontalContentAlignment="Center" FontFamily="Arial Nova Light"/>
         <ListBox x:Name="trendingBox" HorizontalAlignment="Left" Height="100" Margin="1004,219,0,0" VerticalAlignment="Top" Width="125"  Background="#FF171717" Foreground="white" FontFamily="Arial Nova Light"/>
         <Label x:Name="messageTypeLbl_Copy5" Content="Treading" Foreground="White" FontSize="15" Margin="1034,188,75,236"/>
-        <ListBox x:Name="QuarantinedBox_Copy" HorizontalAlignment="Left" Height="100" Margin="870,351,0,0" VerticalAlignment="Top" Width="259"  Background="#FF171717" Foreground="white" FontFamily="Arial Nova Light"/>
-        <Label x:Name="messageTypeLbl_Copy6" Content="S.I.R " Foreground="White" FontSize="15" Margin="974,324,153,100"/>
+        <ListBox x:Name="sirEmailBox" HorizontalAlignment="Left" Height="100" Margin="735,355,0,0" VerticalAlignment="Top" Width="111"  Background="#FF171717" Foreground="white" FontFamily="Arial Nova Light" SelectionChanged="sirEmailBox_SelectionChanged" DisplayMemberPath="Subject"/>
+        <Label x:Name="messageTypeLbl_Copy6" Content="S.I.R " Foreground="White" FontSize="15" Margin="772,324,355,100"/>
+        <ListBox x:Name="reportListBox" HorizontalAlignment="Left" Height="99" Margin="870,355,0,0" VerticalAlignment="Top" Width="134" Foreground="White" FontFamily="Arial Nova Light" Background="#FF171717" SelectionChanged="EMailListBox_SelectionChanged" />
+        <Label x:Name="messageTypeLbl_Copy7" Content="S.I.R List" Foreground="White" FontSize="15" Margin="896,320,221,104"/>
+        <DatePicker x:Name="subjectDate" HorizontalAlignment="Left" Margin="198,349,0,0" VerticalAlignment="Top" Width="220" Height="30" RenderTransformOrigin="0.5,0.5"/>
+        <TextBlock x:Name="SirInfoBlock" Text="Type SIR in subject box to create a new report" HorizontalAlignment="Left" Margin="58,324,0,0" TextWrapping="Wrap" Foreground="White" FontSize="14" VerticalAlignment="Top" Height="85" Width="112" TextAlignment="Center"/>
+        <Button x:Name="cancelBtn" Content="Cancel" HorizontalAlignment="Left" Margin="445,347,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="cancelBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White" />
+        <ListBox x:Name="incidentListBox" HorizontalAlignment="Left" Height="99" Margin="1004,355,0,0" VerticalAlignment="Top" Width="118" Foreground="White" FontFamily="Arial Nova Light" Background="#FF171717" SelectionChanged="EMailListBox_SelectionChanged" />
+        <Button x:Name="loadBtn_Copy" Content="Load File" HorizontalAlignment="Left" Margin="873,621,0,-207" VerticalAlignment="Top" Width="216" Height="41" Click="LoadBtn_Click" Background="#FF090F36" FontFamily="Arial Nova Light" FontSize="16" Foreground="White"/>
+
 
     </Grid>
 </Window>
