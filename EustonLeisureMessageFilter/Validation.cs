@@ -15,6 +15,11 @@ namespace EustonLeisureMessageFilter
         private string messageType;
         private bool isEmailValid;
         private bool isNumlValid;
+        private List<string> mentionsList = new List<string>();
+        private List<string> trendingList = new List<string>();
+        private List<string> sirList = new List<string>();
+        private List<string> incidentList = new List<string>();
+        private Dictionary<string, string> textwords = new Dictionary<string, string>();
 
         //constructor
         public Validation()
@@ -22,6 +27,11 @@ namespace EustonLeisureMessageFilter
             messageType = MessageType;
             isEmailValid = IsEmailValid;
             isNumlValid = IsNumlValid;
+            mentionsList = MentionsList;
+            trendingList = TrendingList;
+            sirList = SirList;
+            incidentList = IncidentList;
+            textwords = Textwords;
         }
 
         public string MessageType
@@ -55,6 +65,61 @@ namespace EustonLeisureMessageFilter
             set
             {
                 isNumlValid = value;
+            }
+        }
+        public List<string> MentionsList
+        {
+            get
+            {
+                return mentionsList;
+            }
+            set
+            {
+                mentionsList = value;
+            }
+        }
+        public List<string> TrendingList
+        {
+            get
+            {
+                return trendingList;
+            }
+            set
+            {
+                trendingList = value;
+            }
+        }
+        public List<string> SirList
+        {
+            get
+            {
+                return sirList;
+            }
+            set
+            {
+                sirList = value;
+            }
+        }
+        public List<string> IncidentList
+        {
+            get
+            {
+                return incidentList;
+            }
+            set
+            {
+                incidentList = value;
+            }
+        }
+        public Dictionary<string, string> Textwords
+        {
+            get
+            {
+                return textwords;
+            }
+            set
+            {
+                textwords = value;
             }
         }
 
@@ -163,5 +228,230 @@ namespace EustonLeisureMessageFilter
             }
         }
 
+        public void CheckForSpeak(Message message, CreateMessage window)
+        {
+            StringBuilder sb = new StringBuilder();
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var item in splits)
+            {
+                if (textwords.ContainsKey(item.ToUpper()))
+                {
+                    string converted = textwords[item.ToUpper()];
+                    sb.Append(item + " <" + converted + "> ");
+                }
+                else
+                {
+                    sb.Append(item + " ");
+                }
+            }
+            window.messageTxtBox.Text = sb.ToString();
+        }
+
+        public void CheckForTweetName(Message message, CreateMessage window)
+        {
+
+
+
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var word in splits)
+            {
+                try
+                {
+                    if (word[0] == '@')
+                    {
+                        mentionsList.Add(word);
+                    }
+                }
+                catch
+                {
+
+                }
+
+            }
+
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            foreach (string word in mentionsList)
+            {
+                if (dictionary.ContainsKey(word))
+                {
+                    dictionary[word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(word, 1);
+                }
+            }
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+            window.MentionBox.ItemsSource = sortedDict;
+
+        }
+
+        public void CheckForTweetTrend(Message message, CreateMessage window)
+        {
+            //create dictionary to find distict values and store how many time they repeat
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            //takes message class messageTxt
+            var line = message.MessageTxt;
+            //splits in words
+            var splits = line.Split(' ');
+
+            //if word has # at start add to list
+            foreach (var word in splits)
+            {
+                if (word == "")
+                {
+
+                }
+                else
+                {
+                    if (word[0] == '#')
+                    {
+                        trendingList.Add(word);
+                    }
+                }
+            }
+
+            foreach (string word in trendingList)
+            {
+                if (dictionary.ContainsKey(word))
+                {
+                    dictionary[word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(word, 1);
+                }
+            }
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+            window.trendingBox.ItemsSource = sortedDict;
+
+        }
+
+        public void CheckForURL(Message message, CreateMessage window)
+        {
+            List<string> quarantineList = new List<string>();
+
+            string replaced = null;
+
+            var line = message.MessageTxt;
+            var splits = line.Split(' ');
+
+            foreach (var item in splits)
+            {
+                replaced = Regex.Replace(line, @"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))", "<quar>");
+                Regex regex = new Regex(@"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))");
+                if (regex.IsMatch(item))
+                    quarantineList.Add(item);
+
+            }
+
+            window.messageTxtBox.Text = replaced;
+            window.QuarantinedBox.ItemsSource = quarantineList;
+
+        }
+
+        public void CheckForSirType(Message message, CreateMessage window)
+        {
+
+            //create dictionary to find distict values and store how many time they repeat
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            List<string> natureOfIncident = new List<string>();
+
+            if (natureOfIncident.Count <= 0)
+            {
+                natureOfIncident.Add("Theft of Properties");
+                natureOfIncident.Add("Staff Attack");
+                natureOfIncident.Add("Device Damage");
+                natureOfIncident.Add("Raid");
+                natureOfIncident.Add("Customer Attack");
+                natureOfIncident.Add("Staff Abuse");
+                natureOfIncident.Add("Bomb Threat");
+                natureOfIncident.Add("Terrorism");
+                natureOfIncident.Add("Suspicious Incident");
+                natureOfIncident.Add("Sport Injury");
+                natureOfIncident.Add("Personal info Leak");
+            }
+
+
+            //takes message class messageTxt
+            var line = message.MessageTxt;
+            //splits in words
+            var splits = line.Split('[', ']');
+
+            //if word has match regex 
+            foreach (var word in splits)
+            {
+                if (natureOfIncident.Contains(word))
+                {
+                    incidentList.Add(word);
+                }
+            }
+
+            foreach (string word in incidentList)
+            {
+                if (dictionary.ContainsKey(word))
+                {
+                    dictionary[word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(word, 1);
+                }
+            }
+
+
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+            window.incidentListBox.ItemsSource = sortedDict;
+
+        }
+
+        public void CheckForSirCentre(Message message, CreateMessage window)
+        {
+            //create dictionary to find distict values and store how many time they repeat
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            //takes message class messageTxt
+            var line = message.MessageTxt;
+            //splits in words
+            var splits = line.Split('[', ']');
+
+            Regex regex = new Regex(@"^[0-9]{2}[-][0-9]{3}[-][0-9]{2}$");
+
+            //if word has match regex 
+            foreach (var word in splits)
+            {
+                Match match = regex.Match(word);
+                if (match.Success)
+                {
+                    sirList.Add(word);
+                }
+
+            }
+
+            string code = "Num: ";
+
+            foreach (string word in sirList)
+            {
+                if (dictionary.ContainsKey(code + word))
+                {
+                    dictionary[code + word] += 1;
+                }
+                else
+                {
+                    dictionary.Add(code + word, 1);
+                }
+            }
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
+
+
+            window.reportListBox.ItemsSource = sortedDict;
+
+        }
     }
 }
