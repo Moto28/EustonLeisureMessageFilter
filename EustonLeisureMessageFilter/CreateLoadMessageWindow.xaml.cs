@@ -28,10 +28,15 @@ namespace EustonLeisureMessageFilter
     {
         Validation valid = new Validation();
         Dictionary<string, string> textwords = new Dictionary<string, string>();
+        List<Message> tweetList = new List<Message>();
+        List<Message> smsList = new List<Message>();
+        List<Message> emailList = new List<Message>();
+        List<Message> SirEmailList = new List<Message>();
         List<string> mentionsList = new List<string>();
         List<string> trendingList = new List<string>();
         List<string> sirList = new List<string>();
         List<string> incidentList = new List<string>();
+
 
 
         public CreateMessage()
@@ -44,7 +49,6 @@ namespace EustonLeisureMessageFilter
             subjectDate.Visibility = Visibility.Hidden;
             SirInfoBlock.Visibility = Visibility.Hidden;
             cancelBtn.Visibility = Visibility.Hidden;
-            createBtn.Visibility = Visibility.Hidden;
             DomainExists();
         }
 
@@ -84,7 +88,7 @@ namespace EustonLeisureMessageFilter
             }
         }
 
-        private void createBtn_Click(object sender, RoutedEventArgs e)
+        private void CreateBtn_Click(object sender, RoutedEventArgs e)
         {
             //validation for create form
             if (messageTypeComboBox.Text.Length <= 0 || messageTypeTxtBox.Text.Length < 9 || senderTxtBox.Text.Length <= 0 || messageTxtBox.Text.Length <= 0)
@@ -125,12 +129,6 @@ namespace EustonLeisureMessageFilter
 
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
-            createBtn.Visibility = Visibility.Hidden;
-
-            List<Message> tweetList = new List<Message>();
-            List<Message> smsList = new List<Message>();
-            List<Message> emailList = new List<Message>();
-            List<Message> SirEmailList = new List<Message>();
 
             trendingList.Clear();
             mentionsList.Clear();
@@ -286,7 +284,7 @@ namespace EustonLeisureMessageFilter
 
         }
 
-        private void sirEmailBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SirEmailBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -306,13 +304,13 @@ namespace EustonLeisureMessageFilter
             }
         }
 
-        private void messageTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MessageTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             valid.GetMessageTypeSetWindow(this);
             createBtn.Visibility = Visibility.Visible;
         }
 
-        private void subjectTxtBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SubjectTxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (subjectTxtBox.Text.ToUpper() == "SIR")
             {
@@ -323,13 +321,37 @@ namespace EustonLeisureMessageFilter
 
         }
 
-        private void cancelBtn_Click(object sender, RoutedEventArgs e)
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             subjectDate.Visibility = Visibility.Hidden;
             cancelBtn.Visibility = Visibility.Hidden;
             SirInfoBlock.Visibility = Visibility.Hidden;
             createBtn.Visibility = Visibility.Hidden;
             ClearValues();
+        }
+
+        private void ExportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            List<Message> messageList = new List<Message>();
+
+            foreach (var item in smsList)
+            {
+                messageList.Add(item);
+            }
+            foreach (var item in emailList)
+            {
+                messageList.Add(item);
+            }
+            foreach (var item in SirEmailList)
+            {
+                messageList.Add(item);
+            }
+            foreach (var item in tweetList)
+            {
+                messageList.Add(item);
+            }
+            String json = JsonConvert.SerializeObject(messageList, Formatting.Indented);
+            System.IO.File.WriteAllText(@"JsonMessage.Json", json);
         }
 
         #endregion
@@ -544,8 +566,9 @@ namespace EustonLeisureMessageFilter
                     dictionary.Add(word, 1);
                 }
             }
-            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
+
+            var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
             incidentListBox.ItemsSource = sortedDict;
 
@@ -592,6 +615,7 @@ namespace EustonLeisureMessageFilter
             reportListBox.ItemsSource = sortedDict;
 
         }
+
 
     }
 

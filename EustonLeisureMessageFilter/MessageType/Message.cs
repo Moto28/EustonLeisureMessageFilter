@@ -11,9 +11,12 @@ namespace EustonLeisureMessageFilter
         private string messageId;
         private string senderTxt;
         private string messageTxt;
+        private string subject;
+
 
         public Message()
         {
+            subject = Subject;
             messageId = MessageId;
             senderTxt = SenderTxt;
             messageTxt = MessageTxt;
@@ -53,6 +56,17 @@ namespace EustonLeisureMessageFilter
             }
         }
 
+        public string Subject
+        {
+            get
+            {
+                return subject;
+            }
+            set
+            {
+                subject = value;
+            }
+        }
     }
 
 

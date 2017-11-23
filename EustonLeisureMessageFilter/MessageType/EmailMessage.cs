@@ -8,23 +8,5 @@ namespace EustonLeisureMessageFilter.MessageType
 {
     class EmailMessage : Message
     {
-        private string subject;
-
-        public EmailMessage()
-        {
-            subject = Subject;
-        }
-
-        public string Subject
-        {
-            get
-            {
-                return subject;
-            }
-            set
-            {
-                subject = value;
-            }
-        }
     }
 }
