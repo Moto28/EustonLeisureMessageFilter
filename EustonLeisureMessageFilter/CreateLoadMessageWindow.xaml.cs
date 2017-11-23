@@ -273,7 +273,6 @@ namespace EustonLeisureMessageFilter
                 senderTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).SenderTxt;
                 messageTxtBox.Text = ((TweetMessage)TweetListBox.SelectedItem).MessageTxt;
                 valid.CheckForSpeak(tweet, this);
-                valid.CheckForTweetName(tweet, this);
             }
             catch
             {

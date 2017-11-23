@@ -265,6 +265,7 @@ namespace EustonLeisureMessageFilter
 
         public void CheckForTweetName(Message message, CreateMessage window)
         {
+
             //takes message.messageTxt then splits the string 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             var line = message.MessageTxt;
@@ -310,6 +311,7 @@ namespace EustonLeisureMessageFilter
 
         public void CheckForTweetTrend(Message message, CreateMessage window)
         {
+
             //takes message.messageTxt then splits the string 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             var line = message.MessageTxt;
