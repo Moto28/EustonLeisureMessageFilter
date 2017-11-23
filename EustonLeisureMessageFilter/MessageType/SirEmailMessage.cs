@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EustonLeisureMessageFilter.MessageType
 {
-    class SirEmailMessage : EmailMessage
+    class SirEmailMessage : Message
     {
     }
 }
