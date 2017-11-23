@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,6 +11,7 @@ namespace EustonLeisureMessageFilter
 {
     class Validation
     {
+        #region private variables
         private string messageType;
         private bool isEmailValid;
         private bool isNumlValid;
@@ -20,8 +20,10 @@ namespace EustonLeisureMessageFilter
         private List<string> sirList = new List<string>();
         private List<string> incidentList = new List<string>();
         private Dictionary<string, string> textwords = new Dictionary<string, string>();
+        #endregion
 
-        //constructor
+        #region constructor
+
         public Validation()
         {
             messageType = MessageType;
@@ -33,7 +35,9 @@ namespace EustonLeisureMessageFilter
             incidentList = IncidentList;
             textwords = Textwords;
         }
+        #endregion
 
+        #region getters and setters
         public string MessageType
         {
             get
@@ -122,13 +126,18 @@ namespace EustonLeisureMessageFilter
                 textwords = value;
             }
         }
+        #endregion
+
+        #region validation methods
 
         public void GetMessageTypeSetWindow(CreateMessage window)
         {
-
+            //clears textboxs
             window.senderTxtBox.Clear();
             window.messageTypeTxtBox.Clear();
             window.subjectTxtBox.Clear();
+
+            //checks textbox for strings to determine message type. then sets windows according to message type
             if (window.subjectTxtBox.Text == "SIR" && window.messageTypeComboBox.Text.ToString() == "sir")
             {
                 //shows subject label and textbox
@@ -193,7 +202,7 @@ namespace EustonLeisureMessageFilter
 
         public void CheckIsNumeric(TextCompositionEventArgs e)
         {
-            //checks if input is number
+            //checks if input from user is number 
             if (!(int.TryParse(e.Text, out int result) || e.Text == "."))
             {
                 e.Handled = true;
@@ -202,6 +211,7 @@ namespace EustonLeisureMessageFilter
 
         public void CheckNumber(string phoneNumber)
         {
+            //checks if the number matchs a international phone number
             string MatchPhoneNumberPattern = "^/(?([0-9]{3})/)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
             if (phoneNumber != null)
             {
@@ -216,6 +226,7 @@ namespace EustonLeisureMessageFilter
 
         public void CheckEmail(string emailaddress)
         {
+            //uses mailaddress class to confirm the email address is valid 
             try
             {
                 MailAddress m = new MailAddress(emailaddress);
@@ -230,10 +241,12 @@ namespace EustonLeisureMessageFilter
 
         public void CheckForSpeak(Message message, CreateMessage window)
         {
+            //builds new string from message.txt, then splits the message into words 
             StringBuilder sb = new StringBuilder();
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
+            //then checks if item is in dictionary, if match is found word is found, the value of the dictionary is added to new string. it also adds word not found in dictionary to the new string 
             foreach (var item in splits)
             {
                 if (textwords.ContainsKey(item.ToUpper()))
@@ -246,17 +259,18 @@ namespace EustonLeisureMessageFilter
                     sb.Append(item + " ");
                 }
             }
+            //displays new string in textbox
             window.messageTxtBox.Text = sb.ToString();
         }
 
         public void CheckForTweetName(Message message, CreateMessage window)
         {
-
-
-
+            //takes message.messageTxt then splits the string 
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
+            //checks each word for an @ then adds to list if found
             foreach (var word in splits)
             {
                 try
@@ -273,7 +287,7 @@ namespace EustonLeisureMessageFilter
 
             }
 
-            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            //checks each item in dictionary to see if it contains a match if a match is found it adds one to the value of that key, if the word is not found it adds to dictionary with default value of 1
             foreach (string word in mentionsList)
             {
                 if (dictionary.ContainsKey(word))
@@ -285,22 +299,23 @@ namespace EustonLeisureMessageFilter
                     dictionary.Add(word, 1);
                 }
             }
+
+            //sorts old dictionary by desending order
             var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
+            //adds list items to combobox
             window.MentionBox.ItemsSource = sortedDict;
 
         }
 
         public void CheckForTweetTrend(Message message, CreateMessage window)
         {
-            //create dictionary to find distict values and store how many time they repeat
+            //takes message.messageTxt then splits the string 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
-            //takes message class messageTxt
             var line = message.MessageTxt;
-            //splits in words
             var splits = line.Split(' ');
 
-            //if word has # at start add to list
+            //checks each word for an @ then adds to list if found
             foreach (var word in splits)
             {
                 if (word == "")
@@ -316,6 +331,7 @@ namespace EustonLeisureMessageFilter
                 }
             }
 
+            //checks each item in dictionary to see if it contains a match if a match is found it adds one to the value of that key, if the word is not found it adds to dictionary with default value of 1
             foreach (string word in trendingList)
             {
                 if (dictionary.ContainsKey(word))
@@ -327,42 +343,45 @@ namespace EustonLeisureMessageFilter
                     dictionary.Add(word, 1);
                 }
             }
+            //sorts old dictionary by desending order
             var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
+            //adds list items to combobox
             window.trendingBox.ItemsSource = sortedDict;
-
         }
 
         public void CheckForURL(Message message, CreateMessage window)
         {
+            //takes strin from message.txt, then splits the message into words 
             List<string> quarantineList = new List<string>();
-
             string replaced = null;
-
             var line = message.MessageTxt;
             var splits = line.Split(' ');
 
+            //checks each word for url if found replaces and adds to Quarantined list 
             foreach (var item in splits)
             {
-                replaced = Regex.Replace(line, @"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))", "<quar>");
+                replaced = Regex.Replace(line, @"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))", "<Quarantined>");
                 Regex regex = new Regex(@"((http|ftp|https):\/\/)?(([\w.-]*)\.([\w]*))");
                 if (regex.IsMatch(item))
                     quarantineList.Add(item);
 
             }
 
+            //sets messageTxtBox to replaced string
             window.messageTxtBox.Text = replaced;
+
+            //adds lists items to combobox
             window.QuarantinedBox.ItemsSource = quarantineList;
 
         }
 
         public void CheckForSirType(Message message, CreateMessage window)
         {
-
-            //create dictionary to find distict values and store how many time they repeat
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             List<string> natureOfIncident = new List<string>();
 
+            //check if list has values added if not add below strings
             if (natureOfIncident.Count <= 0)
             {
                 natureOfIncident.Add("Theft of Properties");
@@ -384,7 +403,7 @@ namespace EustonLeisureMessageFilter
             //splits in words
             var splits = line.Split('[', ']');
 
-            //if word has match regex 
+            //if wordis contained to list
             foreach (var word in splits)
             {
                 if (natureOfIncident.Contains(word))
@@ -393,6 +412,7 @@ namespace EustonLeisureMessageFilter
                 }
             }
 
+            //checks each item in dictionary to see if it contains a match if a match is found it adds one to the value of that key, if the word is not found it adds to dictionary with default value of 1
             foreach (string word in incidentList)
             {
                 if (dictionary.ContainsKey(word))
@@ -405,9 +425,10 @@ namespace EustonLeisureMessageFilter
                 }
             }
 
-
+            //sorts then creates a new dictionary
             var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
+            //dictionary added to listbox
             window.incidentListBox.ItemsSource = sortedDict;
 
         }
@@ -436,6 +457,7 @@ namespace EustonLeisureMessageFilter
 
             string code = "Num: ";
 
+            //checks each item in dictionary to see if it contains a match if a match is found it adds one to the value of that key, if the word is not found it adds to dictionary with default value of 1
             foreach (string word in sirList)
             {
                 if (dictionary.ContainsKey(code + word))
@@ -447,11 +469,13 @@ namespace EustonLeisureMessageFilter
                     dictionary.Add(code + word, 1);
                 }
             }
+            //sorts then creates a new dictionary
             var sortedDict = from entry in dictionary orderby entry.Value descending select entry;
 
-
+            //dictionary added to listbox
             window.reportListBox.ItemsSource = sortedDict;
 
         }
+        #endregion
     }
 }

@@ -1,22 +1,12 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using EustonLeisureMessageFilter.MessageType;
-using System.Text.RegularExpressions;
 
 namespace EustonLeisureMessageFilter
 {
@@ -26,15 +16,15 @@ namespace EustonLeisureMessageFilter
     /// </summary>
     public partial class CreateMessage : Window
     {
+        #region private variable
         Validation valid = new Validation();
         List<Message> tweetList = new List<Message>();
         List<Message> smsList = new List<Message>();
         List<Message> emailList = new List<Message>();
         List<Message> SirEmailList = new List<Message>();
+        #endregion
 
-
-
-
+        #region constructor
         public CreateMessage()
         {
             InitializeComponent();
@@ -45,8 +35,9 @@ namespace EustonLeisureMessageFilter
             subjectDate.Visibility = Visibility.Hidden;
             SirInfoBlock.Visibility = Visibility.Hidden;
             cancelBtn.Visibility = Visibility.Hidden;
-            DomainExists();
+            LoadCSV();
         }
+        #endregion
 
         #region createLoadMessage event handlers
 
@@ -58,6 +49,7 @@ namespace EustonLeisureMessageFilter
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
+            //closes window when button clicked and reopens main menu
             MainWindow newWindow = new MainWindow();
             newWindow.Show();
             this.Close();
@@ -97,7 +89,7 @@ namespace EustonLeisureMessageFilter
 
                 if (subjectTxtBox.Text == "SIR" || subjectTxtBox.Text == "sir")
                 {
-                    // Write the string to a file.
+                    // formats and writes string to a file.
                     string line = string.Format("{0},{1},{2},{3},{4}", messageTypeComboBox.Text, messageTypeTxtBox.Text, senderTxtBox.Text, subjectTxtBox.Text.ToUpper() + coverted, messageTxtBox.Text);
                     StreamWriter file = new StreamWriter(@"Message.csv", true);
                     file.WriteLine(line);
@@ -126,7 +118,7 @@ namespace EustonLeisureMessageFilter
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
 
-
+            //clears lists
             smsList.Clear();
             emailList.Clear();
             SirEmailList.Clear();
@@ -136,13 +128,16 @@ namespace EustonLeisureMessageFilter
             valid.SirList.Clear();
             valid.IncidentList.Clear();
 
+            //opens new stream to message csv file
             using (var reader = new StreamReader(@"Message.csv"))
             {
                 while (!reader.EndOfStream)
                 {
+                    //takes the line and splits them
                     var line = reader.ReadLine();
                     var values = line.Split(',');
 
+                    //checks values and according to message type creates that class object then adds values to the class 
                     if (values[0] == "S")
                     {
                         SmsMessage message = new SmsMessage
@@ -193,21 +188,26 @@ namespace EustonLeisureMessageFilter
                     }
                 }
                 reader.Close();
+
+                //adds new objects to user controls
                 SmsListBox.ItemsSource = smsList;
                 EMailListBox.ItemsSource = emailList;
                 TweetListBox.ItemsSource = tweetList;
                 sirEmailBox.ItemsSource = SirEmailList;
 
+                //checks the tweet for  twitterId and #trends
                 foreach (var item in tweetList)
                 {
                     valid.CheckForTweetName(item, this);
                     valid.CheckForTweetTrend(item, this);
                 }
 
+                //checks sir list for sports centre with reports 
                 foreach (var item in SirEmailList)
                 {
                     valid.CheckForSirCentre(item, this);
                 }
+                //checks for SIR type
                 foreach (var item in SirEmailList)
                 {
                     valid.CheckForSirType(item, this);
@@ -218,6 +218,7 @@ namespace EustonLeisureMessageFilter
 
         private void SmsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //gets selected items and cast the item back to class type then adds values to textboxs
             try
             {
                 createBtn.Visibility = Visibility.Hidden;
@@ -239,6 +240,7 @@ namespace EustonLeisureMessageFilter
 
         private void EMailListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //gets selected items and cast the item back to class type then adds values to textboxs
             try
             {
                 createBtn.Visibility = Visibility.Hidden;
@@ -260,6 +262,7 @@ namespace EustonLeisureMessageFilter
 
         private void TweetListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //gets selected items and cast the item back to class type then adds values to textboxs
             try
             {
                 createBtn.Visibility = Visibility.Hidden;
@@ -281,6 +284,7 @@ namespace EustonLeisureMessageFilter
 
         private void SirEmailBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //gets selected items and cast the item back to class type then adds values to textboxs
             try
             {
                 createBtn.Visibility = Visibility.Hidden;
@@ -301,23 +305,25 @@ namespace EustonLeisureMessageFilter
 
         private void MessageTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //checks messages and sets window 
             valid.GetMessageTypeSetWindow(this);
             createBtn.Visibility = Visibility.Visible;
         }
 
         private void SubjectTxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //adds datepicker when sir added to subject box, then adds string to messageTxtBox
             if (subjectTxtBox.Text.ToUpper() == "SIR")
             {
                 subjectDate.Visibility = Visibility.Visible;
                 messageTxtBox.Text = "Sport Centre Code:[00-000-00]                                                                                           Nature of Incident:[Staff Attack]";
             }
 
-
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            //hides certian controls and clears values
             subjectDate.Visibility = Visibility.Hidden;
             cancelBtn.Visibility = Visibility.Hidden;
             SirInfoBlock.Visibility = Visibility.Hidden;
@@ -329,30 +335,48 @@ namespace EustonLeisureMessageFilter
         {
             List<Message> messageList = new List<Message>();
 
-            foreach (var item in smsList)
+            //serailizes objects and adds or creates json file  
+            try
             {
-                messageList.Add(item);
+                foreach (var item in smsList)
+                {
+                    messageList.Add(item);
+                }
+                foreach (var item in emailList)
+                {
+                    messageList.Add(item);
+                }
+                foreach (var item in SirEmailList)
+                {
+                    messageList.Add(item);
+                }
+                foreach (var item in tweetList)
+                {
+                    messageList.Add(item);
+                }
+                String json = JsonConvert.SerializeObject(messageList, Formatting.Indented);
+                System.IO.File.WriteAllText(@"JsonMessage.Json", json);
+
+                MessageBox.Show("Messages exported to Json");
             }
-            foreach (var item in emailList)
+            catch (Exception exce)
             {
-                messageList.Add(item);
+                MessageBox.Show("Export to Json Failed", exce.ToString());
             }
-            foreach (var item in SirEmailList)
-            {
-                messageList.Add(item);
-            }
-            foreach (var item in tweetList)
-            {
-                messageList.Add(item);
-            }
-            String json = JsonConvert.SerializeObject(messageList, Formatting.Indented);
-            System.IO.File.WriteAllText(@"JsonMessage.Json", json);
+
+        }
+
+        private void ViewClearBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ClearValues();
         }
 
         #endregion
 
-        private void DomainExists()
+
+        private void LoadCSV()
         {
+            //loads each line of a csv file
             using (FileStream reader = File.OpenRead(@"textwords.csv")) // mind the encoding - UTF8
             using (TextFieldParser parser = new TextFieldParser(reader))
             {
@@ -368,7 +392,7 @@ namespace EustonLeisureMessageFilter
                     }
                     catch (Exception e)
                     {
-
+                        MessageBox.Show("Unable to load .CSV", e.ToString());
 
                     }
 
@@ -384,8 +408,6 @@ namespace EustonLeisureMessageFilter
             messageTxtBox.Text = "";
             QuarantinedBox.ItemsSource = "";
         }
-
-
 
 
     }

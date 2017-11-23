@@ -63,7 +63,7 @@
     <Compile Include="MessageType\SirEmailMessage.cs" />
     <Compile Include="MessageType\SmsMessage.cs" />
     <Compile Include="MessageType\TweetMessage.cs" />
-    <Compile Include="Validation.cs" />
+    <Compile Include="ContentChecker\Validation.cs" />
     <Page Include="CreateLoadMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
