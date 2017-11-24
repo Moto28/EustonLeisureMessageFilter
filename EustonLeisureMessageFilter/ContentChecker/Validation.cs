@@ -224,12 +224,12 @@ namespace EustonLeisureMessageFilter
             }
         }
 
-        public void CheckEmail(string emailaddress)
+        public void CheckEmail(string emailAddress)
         {
             //uses mailaddress class to confirm the email address is valid 
             try
             {
-                MailAddress m = new MailAddress(emailaddress);
+                MailAddress m = new MailAddress(emailAddress);
 
                 isEmailValid = true;
             }
